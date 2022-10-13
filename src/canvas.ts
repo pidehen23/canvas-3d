@@ -128,6 +128,8 @@ export class Application {
       event = (e as TouchEvent).changedTouches[0];
     }
 
+    console.log("distance", e);
+
     if (this.startX > event.clientX) {
       this.roleIndex--;
     }
@@ -138,7 +140,9 @@ export class Application {
     this.roleIndex %= Application.MAX_IMAGE_COUNT;
     this.startX = event.clientX;
 
-    this.step();
+    window.requestIdleCallback(this.step, {
+      timeout: window.parseInt(String(2 * (1 / 60) * 1000)),
+    });
   };
 
   touchEnd = () => {
